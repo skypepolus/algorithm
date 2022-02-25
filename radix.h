@@ -27,6 +27,7 @@ struct radix
 
 struct radix* radix_insert(struct radix* radix, uint8_t* key, size_t key_len, void* data);
 void* radix_search(struct radix* radix, uint8_t* key, size_t key_len);
+void* radix_match(struct radix* radix, uint8_t* key, size_t key_len, int (*callback)(void*, uint8_t*, size_t, void*), void* data); /* Once callback returns 0, radix_match returns the data which is matched */
 void radix_free(struct radix* radix, void (*free)(void*));
 
 #endif/*__radix_h__*/
