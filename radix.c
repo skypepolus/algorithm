@@ -143,7 +143,7 @@ void* radix_match(struct radix* radix, uint8_t* key, size_t key_len, int (*callb
 		callback(radix->data, begin, key + len - begin, data);
 		break;
 	}
-	return NULL;
+	return radix ? radix->data : NULL;
 }
 
 struct radix_queue
