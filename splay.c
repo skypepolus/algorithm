@@ -188,7 +188,7 @@ struct node* splay_next(struct node* root)
 	return root;
 }
 
-struct node* splay_insert(void* key, struct node* root, size_t width, int (*compar)(const void*, const void*))
+struct node* splay_create(void* key, struct node* root, size_t width, int (*compar)(const void*, const void*))
 {   
     struct node* node;
     if((root = splay(key, root, compar)))
@@ -230,7 +230,7 @@ struct node* splay_insert(void* key, struct node* root, size_t width, int (*comp
     return root;
 }
 
-struct node* splay_insert_node(struct node* node, struct node* root, int (*compar)(const void*, const void*))
+struct node* splay_insert(struct node* node, struct node* root, int (*compar)(const void*, const void*))
 {
 	if((root = splay(node->key, root, compar)))
 	{
