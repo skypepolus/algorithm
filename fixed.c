@@ -91,6 +91,6 @@ void ffree(void* ptr)
 	if(fixed->page_list.first && page->count > page_node(fixed->page_list.first)->count)
 		insert(&fixed->page_list, &page->node, fixed->page_list.first);
 	else
-		add(&fixed->page_list, fixed->page_list.first, &page->node);
+		insert(&fixed->page_list, &page->node, fixed->page_list.last);
 }
 
