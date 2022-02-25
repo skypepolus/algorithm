@@ -1,1 +1,1 @@
-# algorithm
+Coding algorithm library in C
