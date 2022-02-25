@@ -29,7 +29,7 @@ struct node* splay_first(struct node* root);
 struct node* splay_last(struct node* root);
 struct node* splay_previous(struct node* root);
 struct node* splay_next(struct node* root);
-struct node* splay_create(const void* key, struct node* root, size_t width, int (*compar)(const void*, const void*)); /* create a new node with a given key */
+struct node* splay_alloc(const void* key, struct node* root, size_t width, int (*compar)(const void*, const void*));
 struct node* splay_insert(struct node* node, struct node* root, int (*compar)(const void*, const void*));
 struct node* splay_iterate(struct node* root, void (*callback)(struct node*));
 struct node* splay_remove(struct node* root);

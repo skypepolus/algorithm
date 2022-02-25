@@ -112,4 +112,3 @@ void remove(struct doubly_linked* list, struct doubly* node)
 		list->last = previous;
 	node->previous = node->next = NULL;
 }
-

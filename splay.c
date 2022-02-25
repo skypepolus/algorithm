@@ -188,7 +188,7 @@ struct node* splay_next(struct node* root)
 	return root;
 }
 
-struct node* splay_create(void* key, struct node* root, size_t width, int (*compar)(const void*, const void*))
+struct node* splay_alloc(const void* key, struct node* root, size_t width, int (*compar)(const void*, const void*))
 {   
     struct node* node;
     if((root = splay(key, root, compar)))
