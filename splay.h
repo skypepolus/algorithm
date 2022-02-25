@@ -13,7 +13,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 #ifndef __splay_h__
 #define __splay_h__ __splay_h__
-
+/*
+	Self-Adjusting Binary Search Trees
+	DANIEL DOMINIC SLEATOR AND ROBERT ENDRE TARJAN	
+	Journal of the Association for Computing Machinery, Vol. 32, No3, July 1985, pp. 652-686
+	implementation of top-down splaying 
+*/
 #include <stdint.h>
 #include <string.h>
 
