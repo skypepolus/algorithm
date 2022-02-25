@@ -25,7 +25,7 @@ struct radix
 	void** trie;
 };
 
-void radix_insert(struct radix** radix, uint8_t* key, size_t key_len, void* data);
+struct radix* radix_insert(struct radix* radix, uint8_t* key, size_t key_len, void* data);
 void* radix_search(struct radix* radix, uint8_t* key, size_t key_len);
 void radix_free(struct radix* radix, void (*free)(void*));
 

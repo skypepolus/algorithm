@@ -30,8 +30,9 @@ static void** trie_alloc(void)
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
-void radix_insert(struct radix** radix, uint8_t* key, size_t key_len, void* data)
+struct radix* radix_insert(struct radix* root, uint8_t* key, size_t key_len, void* data)
 {
+	struct radix** radix = &root;
 	while(*radix)
 	{
 		int len, max = MIN((*radix)->key_len, key_len);
@@ -73,13 +74,14 @@ void radix_insert(struct radix** radix, uint8_t* key, size_t key_len, void* data
 		}
 		if(!(*radix)->data)
 			(*radix)->data = data;
-		return;
+		return root;
 	}
 	*radix = radix_alloc();
 	(*radix)->key = key;
 	(*radix)->key_len = key_len;
 	(*radix)->data = data;
 	(*radix)->trie = NULL;
+	return root;
 }
 
 void* radix_search(struct radix* radix, uint8_t* key, size_t key_len)
