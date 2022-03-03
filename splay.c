@@ -274,18 +274,19 @@ struct node* splay_iterate(struct node* root, void (*callback)(struct node*))
 
 struct node* splay_remove(struct node* root)
 {
-	if(root->left)
+	if(root)
 	{
-		struct node* left = root->left = splay_last(root->left);
-		left->right = root->right;
-		return left;
+		if(!root->left)
+			root = root->right;
+		else
+		if(!root->right)
+			root = root->left;
+		else
+		{
+			struct node* left = root->left = splay_last(root->left);
+			left->right = root->right;
+			root = left;
+		}
 	}
-	else
-	if(root->right)
-	{
-		struct node* right = root->right = splay_first(root->right);
-		right->left = root->left;
-		return right;
-	}
-	return NULL;
+	return root;
 }
