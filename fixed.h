@@ -17,15 +17,15 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include <stdlib.h>
 #include "list.h"
 
-struct fixed
+struct Fixed
 {
 	size_t size;
 	size_t pagesize;
 	int page_count;
-	struct doubly_linked page_list;
+	struct DoublyLinked page_list;
 };
 
-void* falloc(struct fixed* fixed);
+void* falloc(struct Fixed* fixed);
 void ffree(void* ptr);
 
 #endif/*__fixed_h__*/

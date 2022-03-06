@@ -15,9 +15,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 /* Linked list */
 
-struct singly* reverse(struct singly* head)
+struct Singly* reverse(struct Singly* head)
 {
-	struct singly* previous, * node, * next;
+	struct Singly* previous, * node, * next;
 	for(previous = NULL, node = head, next = node ? node->next : NULL;
 		node;
 		previous = node, node = next, next = next ? next->next : NULL)
@@ -25,16 +25,16 @@ struct singly* reverse(struct singly* head)
 	return previous;
 }
 
-void iterate(struct singly* head, void (*callback)(struct singly*, void*), void* data)
+void iterate(struct Singly* head, void (*callback)(struct Singly*, void*), void* data)
 {
-	struct singly* node, * next;
+	struct Singly* node, * next;
 	for(node = head, next = node ? node->next : NULL;
 		node;
 		node = next, next = next ? next->next : NULL)
 			callback(node, data);
 }
 
-void enqueue(struct queue* queue, struct singly* node)
+void enqueue(struct Queue* queue, struct Singly* node)
 {
 	node->next = NULL;
 	if(queue->head)
@@ -44,9 +44,9 @@ void enqueue(struct queue* queue, struct singly* node)
 	queue->tail = node;
 }
 
-struct singly* dequeue(struct queue* queue)
+struct Singly* dequeue(struct Queue* queue)
 {
-	struct singly* node;
+	struct Singly* node;
 	if((node = queue->head))
 	{
 		queue->head = node->next;
@@ -57,9 +57,9 @@ struct singly* dequeue(struct queue* queue)
 
 /* Doubly linked list */
 
-void add(struct doubly_linked* list, struct doubly* previous, struct doubly* node)
+void add(struct DoublyLinked* list, struct Doubly* previous, struct Doubly* node)
 {
-	struct doubly* next;
+	struct Doubly* next;
 	if(previous)
 	{
 		next = previous->next;
@@ -78,9 +78,9 @@ void add(struct doubly_linked* list, struct doubly* previous, struct doubly* nod
 	node->next = next;
 }
 
-void insert(struct doubly_linked* list, struct doubly* node, struct doubly* next)
+void insert(struct DoublyLinked* list, struct Doubly* node, struct Doubly* next)
 {
-	struct doubly* previous;
+	struct Doubly* previous;
 	if(next)
 	{
 		previous = next->previous;
@@ -99,9 +99,9 @@ void insert(struct doubly_linked* list, struct doubly* node, struct doubly* next
 	node->previous = previous;
 }
 
-void remove(struct doubly_linked* list, struct doubly* node)
+void remove(struct DoublyLinked* list, struct Doubly* node)
 {
-	struct doubly* previous = node->previous, * next = node->next;
+	struct Doubly* previous = node->previous, * next = node->next;
 	if(previous)
 		previous->next = next;
 	else

@@ -23,16 +23,16 @@ enum { ZIG, R = ZIG, ZAG, L = ZAG, COMPARE, ASSEMBLE };
 #define Zag() root->right = right->left, right->left = root, root = right
 #define zag() down[L]->right = root, down[L] = root, root = right
 
-struct node* splay(const void* key, struct node* root, int (*compar) (const void *, const void *))
+struct Node* splay(const void* key, struct Node* root, int (*compar) (const void *, const void *))
 {
 	if(root)
 	{
-		struct node top[1] = { { NULL, NULL } }, * down[2] = { top, top };
+		struct Node top[1] = { { NULL, NULL } }, * down[2] = { top, top };
 		int step = COMPARE;
 		do
 		{
 			int integer;
-			struct node* left, * right;
+			struct Node* left, * right;
 			switch(step)
 			{
 			case ZIG:
@@ -102,67 +102,35 @@ struct node* splay(const void* key, struct node* root, int (*compar) (const void
 	return root;
 }
 
-struct node* splay_first(struct node* root)
+struct Node* splay_first(struct Node* root)
 {	
 	if(root)
 	{
-		struct node top[1] = { { NULL, NULL } }, * down[2] = { top, top };
-		for(;;)
-		{
-			struct node* left;
-			if((left = root->left))
-			{
-				Zig();
-				if((left = root->left))
-					zig();
-				else
-					break;
-			}
-			else
-				break;
-		} 
-		down[R]->left = root->right;
-		down[L]->right = root->left;
-		root->right = top->left;
-		root->left = top->right;
+		struct Node* left;
+		while((left = root->left))
+			Zig();
 	}
 	return root;
 }
 
-struct node* splay_last(struct node* root)
+struct Node* splay_last(struct Node* root)
 {	
 	if(root)
 	{
-		struct node top[1] = { { NULL, NULL } }, * down[2] = { top, top };
-		for(;;)
-		{
-			struct node* right;
-			if((right = root->right))
-			{
-				Zag();
-				if((right = root->right))
-					zag();
-				else
-					break;
-			}
-			else
-				break;
-		}
-		down[R]->left = root->right;
-		down[L]->right = root->left;
-		root->right = top->left;
-		root->left = top->right;
+		struct Node* right;
+		while((right = root->right))
+			Zag();
 	}
 	return root;
 }
 
-struct node* splay_previous(struct node* root)
+struct Node* splay_previous(struct Node* root)
 {
 	if(root)
 	{
 		if(root->left)
 		{
-			struct node* left;
+			struct Node* left;
 			left = root->left = splay_last(root->left);
 			left->right = root;
 			root->left = NULL;
@@ -172,13 +140,13 @@ struct node* splay_previous(struct node* root)
 	return root;
 }
 
-struct node* splay_next(struct node* root)
+struct Node* splay_next(struct Node* root)
 {
 	if(root)
 	{
 		if(root->right)
 		{
-			struct node* right;
+			struct Node* right;
 			right = root->right = splay_first(root->right);
 			right->left = root;
 			root->right = NULL;
@@ -188,15 +156,15 @@ struct node* splay_next(struct node* root)
 	return root;
 }
 
-struct node* splay_alloc(const void* key, struct node* root, size_t width, int (*compar)(const void*, const void*))
+struct Node* splay_alloc(const void* key, struct Node* root, size_t width, int (*compar)(const void*, const void*))
 {   
-    struct node* node;
+    struct Node* node;
     if((root = splay(key, root, compar)))
     {   
         int integer = compar(key, root->key);
         if(0 != integer)
         {   
-            assert((node = (struct node*)malloc(sizeof(*node) + width)));
+            assert((node = (struct Node*)malloc(sizeof(*node) + width)));
             node->left = NULL;
             node->right = NULL;
             memcpy(node->key, key, width);
@@ -221,7 +189,7 @@ struct node* splay_alloc(const void* key, struct node* root, size_t width, int (
     }
     else
     {   
-        assert((node = (struct node*)malloc(sizeof(*node) + width)));
+        assert((node = (struct Node*)malloc(sizeof(*node) + width)));
         node->left = NULL;
         node->right = NULL;
         memcpy(node->key, key, width);
@@ -230,7 +198,7 @@ struct node* splay_alloc(const void* key, struct node* root, size_t width, int (
     return root;
 }
 
-struct node* splay_insert(struct node* node, struct node* root, int (*compar)(const void*, const void*))
+struct Node* splay_insert(struct Node* node, struct Node* root, int (*compar)(const void*, const void*))
 {
 	if((root = splay(node->key, root, compar)))
 	{
@@ -262,9 +230,9 @@ struct node* splay_insert(struct node* node, struct node* root, int (*compar)(co
 	return root;
 }
 
-struct node* splay_iterate(struct node* root, void (*callback)(struct node*))
+struct Node* splay_for_each(struct Node* root, void (*callback)(struct Node*))
 {
-	struct node* node, * right;
+	struct Node* node, * right;
 	for(node = root = splay_first(root), right = node ? (node->right = splay_first(node->right)) : NULL;
 		node;
 		node = right, right = node ? (node->right = splay_first(node->right)) : NULL)
@@ -272,7 +240,7 @@ struct node* splay_iterate(struct node* root, void (*callback)(struct node*))
 	return root;
 }
 
-struct node* splay_remove(struct node* root)
+struct Node* splay_remove(struct Node* root)
 {
 	if(root)
 	{
@@ -283,7 +251,7 @@ struct node* splay_remove(struct node* root)
 			root = root->left;
 		else
 		{
-			struct node* left = root->left = splay_last(root->left);
+			struct Node* left = root->left = splay_last(root->left);
 			left->right = root->right;
 			root = left;
 		}

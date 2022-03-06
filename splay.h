@@ -22,21 +22,21 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include <stdint.h>
 #include <string.h>
 
-struct node
+struct Node
 {
-	struct node* left;
-	struct node* right;
+	struct Node* left;
+	struct Node* right;
 	uint8_t key[0];
 };
 
-struct node* splay(const void* key, struct node* root, int (*compar) (const void *, const void *));
-struct node* splay_first(struct node* root);
-struct node* splay_last(struct node* root);
-struct node* splay_previous(struct node* root);
-struct node* splay_next(struct node* root);
-struct node* splay_alloc(const void* key, struct node* root, size_t width, int (*compar)(const void*, const void*));
-struct node* splay_insert(struct node* node, struct node* root, int (*compar)(const void*, const void*));
-struct node* splay_iterate(struct node* root, void (*callback)(struct node*));
-struct node* splay_remove(struct node* root);
+struct Node* splay(const void* key, struct Node* root, int (*compar) (const void *, const void *));
+struct Node* splay_first(struct Node* root);
+struct Node* splay_last(struct Node* root);
+struct Node* splay_previous(struct Node* root);
+struct Node* splay_next(struct Node* root);
+struct Node* splay_alloc(const void* key, struct Node* root, size_t width, int (*compar)(const void*, const void*));
+struct Node* splay_insert(struct Node* node, struct Node* root, int (*compar)(const void*, const void*));
+struct Node* splay_for_each(struct Node* root, void (*callback)(struct Node*));
+struct Node* splay_remove(struct Node* root);
 
 #endif/*__splay_h__*/

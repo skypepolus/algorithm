@@ -15,9 +15,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "radix.h"
 #include "fixed.h"
 
-union size { struct radix radix; void* trie[4]; };
-static struct fixed f = { .size = sizeof(union size) };
-#define radix_alloc() ((struct radix*)falloc(&f))
+union size { struct Radix radix; void* trie[4]; };
+static struct Fixed f = { .size = sizeof(union size) };
+#define radix_alloc() ((struct Radix*)falloc(&f))
 
 static void** trie_alloc(void)
 {
@@ -30,16 +30,16 @@ static void** trie_alloc(void)
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
-struct radix* radix_insert(struct radix* root, uint8_t* key, size_t key_len, void* data)
+struct Radix* radix_insert(struct Radix* root, uint8_t* key, size_t key_len, void* data)
 {
-	struct radix** radix = &root;
+	struct Radix** radix = &root;
 	while(*radix)
 	{
 		int len, max = MIN((*radix)->key_len, key_len);
 		for(len = 0; len < max && (*radix)->key[len] == key[len]; len++);
 		if((*radix)->key_len > len)
 		{
-			struct radix* split = *radix;
+			struct Radix* split = *radix;
 			int shift;
 			void*** trie;
 			*radix = radix_alloc();
@@ -69,7 +69,7 @@ struct radix* radix_insert(struct radix* root, uint8_t* key, size_t key_len, voi
 						*trie = trie_alloc();
 			key++;
 			key_len--;
-			radix = (struct radix**)trie;
+			radix = (struct Radix**)trie;
 			continue;
 		}
 		if(!(*radix)->data)
@@ -84,7 +84,7 @@ struct radix* radix_insert(struct radix* root, uint8_t* key, size_t key_len, voi
 	return root;
 }
 
-void* radix_search(struct radix* radix, uint8_t* key, size_t key_len)
+void* radix_search(struct Radix* radix, uint8_t* key, size_t key_len)
 {
 	while(radix)
 	{
@@ -103,7 +103,7 @@ void* radix_search(struct radix* radix, uint8_t* key, size_t key_len)
 					shift -= 2, trie = (void**)trie[0x03 & *key >> shift]);
 				key++;
 				key_len--;
-				radix = (struct radix*)trie;
+				radix = (struct Radix*)trie;
 				continue;
 			}
 			return radix->data;
@@ -114,7 +114,7 @@ void* radix_search(struct radix* radix, uint8_t* key, size_t key_len)
 }
 
 /* Once callback returns 0, radix_match returns the data which is matched */
-void* radix_match(struct radix* radix, uint8_t* key, size_t key_len, int (*callback)(void*, uint8_t*, size_t, void*), void* data)
+void* radix_match(struct Radix* radix, uint8_t* key, size_t key_len, int (*callback)(void*, uint8_t*, size_t, void*), void* data)
 {	
 	uint8_t* begin = key;
 	while(radix)
@@ -136,7 +136,7 @@ void* radix_match(struct radix* radix, uint8_t* key, size_t key_len, int (*callb
 					shift -= 2, trie = (void**)trie[0x03 & *key >> shift]);
 				key++;
 				key_len--;
-				radix = (struct radix*)trie;
+				radix = (struct Radix*)trie;
 				continue;
 			}
 		}
@@ -146,13 +146,13 @@ void* radix_match(struct radix* radix, uint8_t* key, size_t key_len, int (*callb
 	return radix ? radix->data : NULL;
 }
 
-struct radix_queue
+struct RadixQueue
 {
-	struct radix* head;
-	struct radix* tail;
+	struct Radix* head;
+	struct Radix* tail;
 };
 
-static void enqueue(struct radix_queue* q, struct radix* radix)
+static void enqueue(struct RadixQueue* q, struct Radix* radix)
 {
 	radix->data = NULL;
 	if(q->head)
@@ -162,26 +162,26 @@ static void enqueue(struct radix_queue* q, struct radix* radix)
 	q->tail = radix;
 }
 
-static struct radix* dequeue(struct radix_queue* q)
+static struct Radix* dequeue(struct RadixQueue* q)
 {
-	struct radix* radix = q->head;
+	struct Radix* radix = q->head;
 	if(q->head)
 	{
-		q->head = (struct radix*)radix->data;
+		q->head = (struct Radix*)radix->data;
 		radix->data = NULL;
 	}
 	return radix;
 }
 
-static void trie_free(struct radix_queue* q, void** trie, int i, void (*free)(void*))
+static void trie_free(struct RadixQueue* q, void** trie, int i, void (*free)(void*))
 {
 	int j;
 	if(3 == i)
 	{
 		for(j = 0; j < 4; j++)
 		{
-			struct radix* radix;
-			if((radix = (struct radix*)trie[j]))
+			struct Radix* radix;
+			if((radix = (struct Radix*)trie[j]))
 			{
 				if(radix->data && free)
 					free(radix->data);
@@ -198,11 +198,11 @@ static void trie_free(struct radix_queue* q, void** trie, int i, void (*free)(vo
 	ffree(trie);
 }
 
-void radix_free(struct radix* radix, void (*free)(void*))
+void radix_free(struct Radix* radix, void (*free)(void*))
 {
 	if(radix)
 	{
-		struct radix_queue q = { .head = NULL };
+		struct RadixQueue q = { .head = NULL };
 		if(radix->data && free)
 			free(radix->data);
 		enqueue(&q, radix);

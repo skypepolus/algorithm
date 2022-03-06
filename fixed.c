@@ -24,20 +24,20 @@ static int pagesize = 0;
 
 struct page
 {
-	struct doubly node;
-	struct fixed* fixed;
+	struct Doubly node;
+	struct Fixed* fixed;
 	int count;
-	struct singly* free;
+	struct Singly* free;
 	uint8_t* bump;
 	uint8_t begin[0];
 };
 
 #define page_node(ptr) ((struct page*)((uint8_t*)(ptr) - (uint8_t*)&((struct page*)NULL)->node))
 
-void* falloc(struct fixed* fixed)
+void* falloc(struct Fixed* fixed)
 {
 	struct page* page;
-	struct singly* node;
+	struct Singly* node;
 	if(fixed->page_list.first)
 		page = page_node(fixed->page_list.first);
 	else
@@ -63,7 +63,7 @@ void* falloc(struct fixed* fixed)
 	}
 	else
 	{
-		node = (struct singly*)page->bump;
+		node = (struct Singly*)page->bump;
 		page->bump += fixed->size;
 	}	
 	page->count++;
@@ -75,8 +75,8 @@ void* falloc(struct fixed* fixed)
 void ffree(void* ptr)
 {
 	struct page* page = (struct page*)(void*)(((unsigned long)ptr / pagesize) * pagesize);
-	struct fixed* fixed = page->fixed;
-	struct singly* node = (struct singly*)ptr;
+	struct Fixed* fixed = page->fixed;
+	struct Singly* node = (struct Singly*)ptr;
 	node->next = page->free;
 	page->free = node;
 	if(fixed->page_count > page->count)
