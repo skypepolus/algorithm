@@ -170,20 +170,18 @@ struct Node* splay_alloc(const void* key, struct Node* root, size_t width, int (
             memcpy(node->key, key, width);
             if(integer < 0)
             {   
-                root->left = splay_last(root->left);
-                node->left = root->left;
-                root->left = NULL;
-                node->right = root;
-                root = node;
+				node->right = root;
+				node->left = root->left;
+				root->left = NULL;
+				root = node;
             }
             else 
             if(0 < integer)
-            {   
-                root->right = splay_first(root->right);
-                node->right = root->right;
-                root->right = NULL;
-                node->left = root;
-                root = node;
+            {
+				node->left = root;
+				node->right = root->right;
+				root->right = NULL;
+				root = node;
             }
         }
     }
@@ -205,19 +203,17 @@ struct Node* splay_insert(struct Node* node, struct Node* root, int (*compar)(co
         int integer = compar(node->key, root->key);
 		if(integer < 0)
 		{                
-			root->left = splay_last(root->left);
+			node->right = root;
 			node->left = root->left;
 			root->left = NULL;
-			node->right = root;
 			root = node;
 		}
 		else
 		if(0 < integer)
 		{
-			root->right = splay_first(root->right);
+			node->left = root;
 			node->right = root->right;
 			root->right = NULL;
-			node->left = root;
 			root = node;
 		}
 	}
@@ -251,7 +247,7 @@ struct Node* splay_remove(struct Node* root)
 			root = root->left;
 		else
 		{
-			struct Node* left = root->left = splay_last(root->left);
+			struct Node* left = splay_last(root->left);
 			left->right = root->right;
 			root = left;
 		}
