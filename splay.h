@@ -18,6 +18,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 	DANIEL DOMINIC SLEATOR AND ROBERT ENDRE TARJAN	
 	Journal of the Association for Computing Machinery, Vol. 32, No3, July 1985, pp. 652-686
 	implementation of top-down splaying 
+	An alternative algorithm of heap to implement priority queue.
 */
 #include <stdint.h>
 #include <string.h>

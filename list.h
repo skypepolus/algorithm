@@ -34,7 +34,7 @@ struct Queue
 };
 
 struct Singly* reverse(struct Singly* head);
-void iterate(struct Singly* head, void (*callback)(struct Singly*, void*), void* data);
+void for_each(struct Singly* head, void (*callback)(struct Singly*, void*), void* data);
 void enqueue(struct Queue* queue, struct Singly* node);
 struct Singly* dequeue(struct Queue* queue);
 

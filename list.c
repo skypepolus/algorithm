@@ -25,7 +25,7 @@ struct Singly* reverse(struct Singly* head)
 	return previous;
 }
 
-void iterate(struct Singly* head, void (*callback)(struct Singly*, void*), void* data)
+void for_each(struct Singly* head, void (*callback)(struct Singly*, void*), void* data)
 {
 	struct Singly* node, * next;
 	for(node = head, next = node ? node->next : NULL;
