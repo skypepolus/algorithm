@@ -25,13 +25,13 @@ struct Singly* reverse(struct Singly* head)
 	return previous;
 }
 
-void for_each(struct Singly* head, void (*callback)(struct Singly*, void*), void* data)
+void for_each(struct Singly* head, void (*callback)(struct Singly*))
 {
 	struct Singly* node, * next;
 	for(node = head, next = node ? node->next : NULL;
 		node;
 		node = next, next = next ? next->next : NULL)
-			callback(node, data);
+			callback(node);
 }
 
 void enqueue(struct Queue* queue, struct Singly* node)

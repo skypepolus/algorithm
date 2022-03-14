@@ -113,18 +113,18 @@ void* radix_search(struct Radix* radix, uint8_t* key, size_t key_len)
 	return NULL;
 }
 
-/* Once callback returns 0, radix_match returns the data which is matched */
-void* radix_match(struct Radix* radix, uint8_t* key, size_t key_len, int (*callback)(void*, uint8_t*, size_t, void*), void* data)
+int radix_match(struct Radix* radix, uint8_t* key, size_t key_len)
 {	
-	uint8_t* begin = key;
+	uint8_t* begin = key, * end = begin;
 	while(radix)
 	{
 		int len, max = MIN(radix->key_len, key_len);
 		for(len = 0; len < max && radix->key[len] == key[len]; len++);
 		if(radix->key_len == len)
 		{
-			if(0 == callback(radix->data, begin, key + len - begin, data))
-				return radix->data;
+			if(radix->data)
+				end = key;
+			else
 			if(key_len > len)
 			{
 				int shift;
@@ -140,10 +140,9 @@ void* radix_match(struct Radix* radix, uint8_t* key, size_t key_len, int (*callb
 				continue;
 			}
 		}
-		callback(radix->data, begin, key + len - begin, data);
 		break;
 	}
-	return radix ? radix->data : NULL;
+	return end - begin;
 }
 
 struct RadixQueue
