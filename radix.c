@@ -123,8 +123,7 @@ int radix_match(struct Radix* radix, uint8_t* key, size_t key_len)
 		if(radix->key_len == len)
 		{
 			if(radix->data)
-				end = key;
-			else
+				end = key + len;
 			if(key_len > len)
 			{
 				int shift;
