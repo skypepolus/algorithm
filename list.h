@@ -57,4 +57,9 @@ void add(struct DoublyLinked* list, struct Doubly* previous, struct Doubly* node
 void insert(struct DoublyLinked* list, struct Doubly* node, struct Doubly* next);
 void remove(struct DoublyLinked* list, struct Doubly* node);
 
+typedef struct Singly single_t;
+typedef struct Queue queue_t;
+typedef struct Doubly double_t;
+typedef struct DoublyLinked list_t;
+
 #endif/*__list_h__*/

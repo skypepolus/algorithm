@@ -28,4 +28,6 @@ struct Fixed
 void* falloc(struct Fixed* fixed);
 void ffree(void* ptr);
 
+typedef struct Fixed fixed_t
+
 #endif/*__fixed_h__*/

@@ -33,4 +33,6 @@ void* radix_search(struct Radix* radix, uint8_t* key, size_t key_len);
 int radix_match(struct Radix* radix, uint8_t* key, size_t key_len);
 void radix_free(struct Radix* radix, void (*free)(void*));
 
+typedef struct Radix radix_t;
+
 #endif/*__radix_h__*/

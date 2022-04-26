@@ -40,4 +40,6 @@ struct Node* splay_insert(struct Node* node, struct Node* root, int (*compar)(co
 struct Node* splay_for_each(struct Node* root, void (*callback)(struct Node*));
 struct Node* splay_remove(struct Node* root);
 
+typedef struct Node splay_t;
+
 #endif/*__splay_h__*/
